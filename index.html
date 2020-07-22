@@ -42,6 +42,7 @@
     <script src="js/slotmachine.min.js"></script>
 
     <script type="text/javascript">
+      let instaUsers = [];
       function fetchUsers() {
         return new Promise(function (resolve, reject) {
           fetch("http://138.68.177.26:8086/followers", {
@@ -69,13 +70,25 @@
         });
       }
       fetchUsers().then(function (users) {
-        console.log(users);
-        users.map((user) => {
+        instaUsers = users.filter(function (user) {
+          if (user.length > 18) {
+            return false;
+          } else {
+            return true;
+          }
+        });
+        shuffleUsers(instaUsers);
+        instaUsers.map((user) => {
           $("#listOfUsers ul").append(`<li>${user}</li>`);
         });
       });
       $("body").keypress(function (event) {
         if (event.which == 13) {
+          shuffleUsers(instaUsers);
+          $("#listOfUsers ul").empty();
+          instaUsers.map((user) => {
+            $("#listOfUsers ul").append(`<li>${user}</li>`);
+          });
           $("#listOfUsers ul").playSpin({
             manualStop: true,
           });
@@ -93,6 +106,25 @@
       // $("#btn-stop").click(function () {
       //   $("#listOfUsers ul").stopSpin();
       // });
+      function shuffleUsers(array) {
+        var currentIndex = array.length,
+          temporaryValue,
+          randomIndex;
+
+        // While there remain elements to shuffle...
+        while (0 !== currentIndex) {
+          // Pick a remaining element...
+          randomIndex = Math.floor(Math.random() * currentIndex);
+          currentIndex -= 1;
+
+          // And swap it with the current element.
+          temporaryValue = array[currentIndex];
+          array[currentIndex] = array[randomIndex];
+          array[randomIndex] = temporaryValue;
+        }
+
+        return array;
+      }
     </script>
   </body>
 </html>
