@@ -18,9 +18,11 @@
 
   <body>
     <div class="slotwrapper" id="listOfUsers">
+      <div class="gradient_top"></div>
       <ul class="d-flex flex-wrap">
-        <li class="">insta_giveaway</li>
+        <li class="insta_giveaway">insta_giveaway</li>
       </ul>
+      <div class="gradient_bottom"></div>
     </div>
     <!-- <div>
       <button type="button" class="btn btn-success btn-lg" id="btn-start">
@@ -84,14 +86,16 @@
       });
       $("body").keypress(function (event) {
         if (event.which == 13) {
-          shuffleUsers(instaUsers);
-          $("#listOfUsers ul").empty();
-          instaUsers.map((user) => {
-            $("#listOfUsers ul").append(`<li>${user}</li>`);
-          });
+          // shuffleUsers(instaUsers);
+          // $("#listOfUsers ul").empty();
+          // instaUsers.map((user) => {
+          //   $("#listOfUsers ul").append(`<li>${user}</li>`);
+          // });
           $("#listOfUsers ul").playSpin({
             manualStop: true,
           });
+          var user = instaUsers[Math.floor(Math.random() * instaUsers.length)];
+          $(".insta_giveaway").text(user);
         }
         if (event.which == 32) {
           $("#listOfUsers ul").stopSpin();
